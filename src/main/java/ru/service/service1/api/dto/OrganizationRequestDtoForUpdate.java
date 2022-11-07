@@ -18,30 +18,30 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Getter
 @Setter
-@XmlRootElement
+//@XmlRootElement
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrganizationRequestDtoForUpdate {
 
     @NotNull
-    @XmlAttribute
+//    @XmlAttribute
     private Long id;
 
-    @XmlAttribute
+//    @XmlAttribute
     private String name; //Поле не может быть null, Строка не может быть пустой
 
-    @XmlElement
+//    @XmlElement
     private Coordinates coordinates; //Поле не может быть null
 
-    @XmlAttribute
+//    @XmlAttribute
     private float annualTurnover; //Значение поля должно быть больше 0
 
-    @XmlAttribute
+//    @XmlAttribute
     private long employeesCount; //Значение поля должно быть больше 0
 
-    @XmlAttribute
+//    @XmlAttribute
     private OrganizationType type; //Поле может быть null
 
-    @XmlElement
+//    @XmlElement
     private Address officialAddress; //Поле может быть null
 }

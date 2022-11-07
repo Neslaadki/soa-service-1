@@ -19,33 +19,33 @@ import ru.service.service1.db.data.OrganizationType;
 
 @Getter
 @Setter
-@XmlRootElement
+//@XmlRootElement
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrganizationRequestDto {
 
     @NotBlank
-    @XmlAttribute
+//    @XmlAttribute
     private String name; //Поле не может быть null, Строка не может быть пустой
 
     @NotNull
-    @XmlElement
+//    @XmlElement
     private Coordinates coordinates; //Поле не может быть null
 
     @Min(0)
-    @XmlAttribute
+//    @XmlAttribute
     private float annualTurnover; //Значение поля должно быть больше 0
 
     @Min(0)
-    @XmlAttribute
+//    @XmlAttribute
     private long employeesCount; //Значение поля должно быть больше 0
 
     @NotNull
-    @XmlAttribute
+//    @XmlAttribute
     private OrganizationType type; //Поле может быть null
 
     @NotNull
-    @XmlElement
+//    @XmlElement
     private Address officialAddress; //Поле может быть null
 
 }
