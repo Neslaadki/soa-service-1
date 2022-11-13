@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import javax.print.attribute.standard.MediaSize;
+import java.util.Date;
 
 @Entity
 @Setter
@@ -26,8 +27,10 @@ public class Employee {
     @Column(nullable = false, name = "last_name")
     String lastName;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn( nullable = false, name = "organization_id")
-    Organization organization;
+    @Column(nullable = false, name = "birthday")
+    Date birthday;
+
+    @Column(nullable = false, name = "organization_id")
+    Long organizationId;
 
 }

@@ -21,29 +21,30 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public class Organization {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
-  Long
-      id; // Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно
-  // быть уникальным, Значение этого поля должно генерироваться автоматически
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    Long id;
 
-  @NotBlank String name; // Поле не может быть null, Строка не может быть пустой
+    @NotBlank String name;
 
-  @NotNull @Embedded Coordinates coordinates; // Поле не может быть null
+    @NotNull
+    @Embedded
+    Coordinates coordinates;
 
-  @NotNull
-  @CreatedDate
-  @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
-  LocalDateTime creationDate; // Поле не может быть null, Значение этого поля должно генерироваться
-  // автоматически
+    @NotNull
+    @CreatedDate
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    LocalDateTime creationDate;
 
-  @Min(0)
-  float annualTurnover; // Значение поля должно быть больше 0
+    @Min(0)
+    float annualTurnover;
 
-  @Min(0)
-  long employeesCount; // Значение поля должно быть больше 0
+    @Min(0)
+    long employeesCount;
 
-  @NotNull OrganizationType type; // Поле может быть null
+    @NotNull OrganizationType type;
 
-  @NotNull @Embedded Address officialAddress; // Поле может быть null
+    @NotNull
+    @Embedded
+    Address officialAddress;
 }

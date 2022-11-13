@@ -1,0 +1,36 @@
+create or replace function employeeCounter()
+    returns trigger
+as
+$employeeCounter$
+declare
+    cur_films cursor for select organization_id oi, count(*) c
+                         from employee
+                         group by organization_id;
+    rec employee%rowtype;
+begin
+    fetch cur_films into rec;
+    for oi IN cur_films
+        loop
+            update organization
+            set employees_count = (select count(*) from employee where employee.organization_id = oi.oi)
+            where id = oi.oi;
+        end loop;
+    RETURN NULL;
+end;
+$employeeCounter$ language 'plpgsql';
+
+select employeeCounter();
+
+drop function employeeCounter();
+
+
+select organization_id, count(*)
+from employee
+group by organization_id;
+
+
+create or replace trigger employeeCounterTrigger
+    after INSERT or UPDATE or DELETE
+    ON employee
+    for each row
+execute function employeeCounter();

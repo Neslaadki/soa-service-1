@@ -5,26 +5,26 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import ru.service.service1.api.dto.OrganizationRequestDto;
-import ru.service.service1.api.dto.OrganizationResponseDto;
-import ru.service.service1.api.dto.OrganizationRequestDtoForUpdate;
+import ru.service.service1.api.dto.OrganizationRq;
+import ru.service.service1.api.dto.OrganizationRs;
+import ru.service.service1.api.dto.OrganizationUpdateRq;
 import ru.service.service1.db.data.OrganizationType;
 
 public interface OrganizationService {
 
-    OrganizationResponseDto findById(Long id);
+    OrganizationRs findById(Long id);
 
-    Page<OrganizationResponseDto> findAll(Pageable pageable);
+    Page<OrganizationRs> findAll(Pageable pageable);
 
-    OrganizationResponseDto deleteById(Long id);
-    List<OrganizationResponseDto> deleteWithType(OrganizationType organizationType);
+    OrganizationRs deleteById(Long id);
+    List<OrganizationRs> deleteWithType(OrganizationType organizationType);
 
-    OrganizationResponseDto create(OrganizationRequestDto organizationRequestDto);
+    OrganizationRs create(OrganizationRq organizationRq);
 
-    List<OrganizationResponseDto> findByEmployeeCountBiggestThan(long count);
+    List<OrganizationRs> findByEmployeeCountBiggestThan(long count);
 
     Map<OrganizationType, Long> getMapWithOrganizationTypeAndCountOfOrganizations();
 
-    OrganizationResponseDto updateById(OrganizationRequestDtoForUpdate organizationRequestDtoForUpdate);
+    OrganizationRs updateById(OrganizationUpdateRq organizationUpdateRq);
 
 }

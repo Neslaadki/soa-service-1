@@ -2,17 +2,18 @@ package ru.service.service1.impl.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import ru.service.service1.api.dto.OrganizationRequestDto;
-import ru.service.service1.api.dto.OrganizationResponseDto;
+import ru.service.service1.api.dto.OrganizationRq;
+import ru.service.service1.api.dto.OrganizationRs;
 import ru.service.service1.db.data.Organization;
 import ru.service.service1.impl.config.MapperConfig;
 
 @Mapper(config = MapperConfig.class)
 public interface OrganizationMapper {
 
-    OrganizationResponseDto toOrganizationResponseDto(Organization organization);
+    OrganizationRs toOrganizationResponseDto(Organization organization);
 
     @Mapping(ignore = true, target = "id")
     @Mapping(ignore = true, target = "creationDate")
-    Organization toOrganization(OrganizationRequestDto organizationRequestDto);
+    @Mapping(ignore = true, target = "employeesCount")
+    Organization toOrganization(OrganizationRq organizationRq);
 }

@@ -20,9 +20,9 @@ import lombok.experimental.FieldDefaults;
 public class Coordinates {
 
     @NotNull
-    Integer x; //Поле не может быть null
+    Integer x;
 
     @NotNull
-    Integer y; //Поле не может быть null
+    Integer y;
 
 }

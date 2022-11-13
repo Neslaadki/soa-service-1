@@ -1,7 +1,6 @@
 package ru.service.service1.impl.service.impl;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +15,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.yaml.snakeyaml.events.Event.ID;
-import ru.service.service1.api.dto.OrganizationRequestDto;
-import ru.service.service1.api.dto.OrganizationResponseDto;
+import ru.service.service1.api.dto.OrganizationRq;
+import ru.service.service1.api.dto.OrganizationRs;
 import ru.service.service1.db.data.Address;
 import ru.service.service1.db.data.Coordinates;
 import ru.service.service1.db.data.Organization;
@@ -32,8 +30,8 @@ class OrganizationServiceImplTest {
   private Organization organization;
   private Optional<Organization> exampleOfOrganization;
 
-  private OrganizationRequestDto organizationRequestDto;
-  private OrganizationResponseDto exampleOfOrganizationResponseDto;
+  private OrganizationRq organizationRq;
+  private OrganizationRs exampleOfOrganizationRs;
 
   @Mock OrganizationRepository organizationRepository;
 
@@ -49,8 +47,8 @@ class OrganizationServiceImplTest {
     list = getExampleListOfOrganizations();
     map = getExampleMapOfOrganizationTypeAndCount();
     exampleOfOrganization = getExampleOptionalOfOrganization();
-    organizationRequestDto = getExampleOfOrganizationRequestDto();
-    exampleOfOrganizationResponseDto = getExampleOfOrganizationResponseDto();
+    organizationRq = getExampleOfOrganizationRequestDto();
+    exampleOfOrganizationRs = getExampleOfOrganizationResponseDto();
     organization = exampleOfOrganization.get();
   }
 
@@ -60,10 +58,10 @@ class OrganizationServiceImplTest {
 
     Mockito.when(organizationRepository.findById(ID)).thenReturn(exampleOfOrganization);
     Mockito.when(organizationMapper.toOrganizationResponseDto(organization))
-        .thenReturn(exampleOfOrganizationResponseDto);
+        .thenReturn(exampleOfOrganizationRs);
 
     var actual = organizationService.findById(ID);
-    Assertions.assertEquals(exampleOfOrganizationResponseDto, actual);
+    Assertions.assertEquals(exampleOfOrganizationRs, actual);
   }
 
   @Test
@@ -82,12 +80,12 @@ class OrganizationServiceImplTest {
     final var pageable = PageRequest.of(1, 1);
     final var organizationList = List.of(organization);
     final var exampleListOfOrganizationResponseDtos =
-        new PageImpl<>(List.of(exampleOfOrganizationResponseDto));
+        new PageImpl<>(List.of(exampleOfOrganizationRs));
 
     Mockito.when(organizationRepository.findAll(pageable))
         .thenReturn(new PageImpl<>(organizationList));
     Mockito.when(organizationMapper.toOrganizationResponseDto(organization))
-        .thenReturn(exampleOfOrganizationResponseDto);
+        .thenReturn(exampleOfOrganizationRs);
 
     final var actual = organizationService.findAll(pageable);
     Assertions.assertEquals(exampleListOfOrganizationResponseDtos, actual);
@@ -105,15 +103,15 @@ class OrganizationServiceImplTest {
   @Test
   void create_ShouldReturnOrganizationResponseDto_WhenCreated() {
 
-    Mockito.when(organizationMapper.toOrganization(organizationRequestDto)).thenReturn(organization);
+    Mockito.when(organizationMapper.toOrganization(organizationRq)).thenReturn(organization);
     Mockito.when(organizationRepository.save(organization)).thenReturn(organization);
-    Mockito.when(organizationMapper.toOrganizationResponseDto(organization)).thenReturn(exampleOfOrganizationResponseDto);
+    Mockito.when(organizationMapper.toOrganizationResponseDto(organization)).thenReturn(exampleOfOrganizationRs);
     Mockito.when(organizationRepository.findById(organization.getId())).thenReturn(Optional.of(organization));
-    Mockito.when(organizationService.findById(exampleOfOrganizationResponseDto.getId())).thenReturn(exampleOfOrganizationResponseDto);
+    Mockito.when(organizationService.findById(exampleOfOrganizationRs.getId())).thenReturn(exampleOfOrganizationRs);
 
-    var actual = organizationService.create(organizationRequestDto);
+    var actual = organizationService.create(organizationRq);
 
-    Assertions.assertEquals(exampleOfOrganizationResponseDto, actual);
+    Assertions.assertEquals(exampleOfOrganizationRs, actual);
   }
 
   private List<Organization> getExampleListOfOrganizations() {
@@ -173,8 +171,8 @@ class OrganizationServiceImplTest {
             .build());
   }
 
-  private OrganizationResponseDto getExampleOfOrganizationResponseDto() {
-    return OrganizationResponseDto.builder()
+  private OrganizationRs getExampleOfOrganizationResponseDto() {
+    return OrganizationRs.builder()
         .id(1L)
         .name("1")
         .type(OrganizationType.PUBLIC)
@@ -186,20 +184,20 @@ class OrganizationServiceImplTest {
         .build();
   }
 
-  private OrganizationRequestDto getExampleOfOrganizationRequestDto() {
-    return OrganizationRequestDto.builder()
+  private OrganizationRq getExampleOfOrganizationRequestDto() {
+    return OrganizationRq.builder()
             .name("1")
             .type(OrganizationType.PUBLIC)
             .annualTurnover(10f)
             .coordinates(Coordinates.builder().x(10).y(20).build())
-            .employeesCount(100)
+            //.employeesCount(100)
             .officialAddress(Address.builder().street("Street").zipCode("180000").build())
             .build();
   }
 
-  private List<OrganizationResponseDto> getExampleListOfOrganizationResponseDtos() {
+  private List<OrganizationRs> getExampleListOfOrganizationResponseDtos() {
     return List.of(
-        OrganizationResponseDto.builder()
+        OrganizationRs.builder()
             .id(1L)
             .name("1")
             .type(OrganizationType.PUBLIC)
@@ -209,7 +207,7 @@ class OrganizationServiceImplTest {
             .employeesCount(100)
             .officialAddress(Address.builder().street("Street").zipCode("180000").build())
             .build(),
-        OrganizationResponseDto.builder()
+        OrganizationRs.builder()
             .id(2L)
             .name("2")
             .type(OrganizationType.PUBLIC)
@@ -219,7 +217,7 @@ class OrganizationServiceImplTest {
             .employeesCount(111)
             .officialAddress(Address.builder().street("Street").zipCode("180100").build())
             .build(),
-        OrganizationResponseDto.builder()
+        OrganizationRs.builder()
             .id(3L)
             .name("3")
             .type(OrganizationType.COMMERCIAL)
