@@ -16,32 +16,28 @@ import ru.service.service1.api.dto.OrganizationRequestDto;
 import ru.service.service1.api.dto.OrganizationResponseDto;
 import ru.service.service1.db.data.OrganizationType;
 
-@RequestMapping(value = "/api/v1", consumes = "application/xml", produces = "application/xml")
+@RequestMapping(value = "/api/v1", consumes = "application/json", produces = "application/json")
 public interface CollectionControllerV1 {
 
   @PostMapping("/organizations")
-  ResponseEntity<OrganizationRequestDto> create(
+  OrganizationResponseDto create(
       @Validated @RequestBody OrganizationRequestDto organizationRequestDto);
 
   @GetMapping("/organizations")
-  ResponseEntity<Page<OrganizationResponseDto>> getAll(Pageable pageable);
+  Page<OrganizationResponseDto> getAll(Pageable pageable);
 
   @GetMapping("/organizations/{organization_id}")
   OrganizationResponseDto getById(@PathVariable("organization_id") Long id);
 
-  /*
-  put method
-   */
-
   @DeleteMapping("/organizations/{organization_id}")
-  ResponseEntity deleteById(@PathVariable("organization_id") Long id);
+  ResponseEntity<?> deleteById(@PathVariable("organization_id") Long id);
 
   @GetMapping("/organizations/types/{type}")
-  ResponseEntity getByType(@PathVariable("type") OrganizationType organizationType);
+  ResponseEntity<?> getByType(@PathVariable("type") OrganizationType organizationType);
 
   @GetMapping("/organizations/employees_counts/{count}")
-  ResponseEntity getByEmployeeCount(@PathVariable("count") long count);
+  List<OrganizationResponseDto> getByEmployeeCount(@PathVariable("count") long count);
 
   @GetMapping("/organizations/example")
-  ResponseEntity<OrganizationResponseDto> example();
+  OrganizationResponseDto example();
 }

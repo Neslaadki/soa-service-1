@@ -1,5 +1,6 @@
 package ru.service.service1.api.dto;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import javax.persistence.Embedded;
 import javax.validation.constraints.Min;
@@ -29,35 +30,27 @@ import ru.service.service1.db.data.OrganizationType;
 @AllArgsConstructor
 public class OrganizationResponseDto {
 
-//    @XmlAttribute
     private Long id;
 
     @NotBlank
-//    @XmlAttribute
     private String name; //Поле не может быть null, Строка не может быть пустой
 
     @NotNull
-//    @XmlElement
     private Coordinates coordinates; //Поле не может быть null
 
     @NotNull
     @CreatedDate
-//    @XmlAttribute
-    private ZonedDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
+    private LocalDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
 
     @Min(0)
-//    @XmlAttribute
     private float annualTurnover; //Значение поля должно быть больше 0
 
     @Min(0)
-//    @XmlAttribute
     private long employeesCount; //Значение поля должно быть больше 0
 
     @NotNull
-//    @XmlAttribute
     private OrganizationType type; //Поле может быть null
 
     @NotNull
-//    @XmlElement
     private Address officialAddress; //Поле может быть null
 }
