@@ -9,14 +9,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 import ru.service.service1.api.controller.CollectionControllerV1;
-import ru.service.service1.api.dto.EmployeeCountRs;
 import ru.service.service1.api.dto.OrganizationRq;
 import ru.service.service1.api.dto.OrganizationRs;
+import ru.service.service1.api.dto.OrganizationUpdateRq;
 import ru.service.service1.db.data.OrganizationType;
-import ru.service.service1.impl.exception.DeleteException;
-import ru.service.service1.impl.exception.NotFoundException;
 import ru.service.service1.impl.service.OrganizationService;
 
 @RestController
@@ -57,6 +54,11 @@ public class CollectionControllerV1Impl implements CollectionControllerV1 {
     @Override
     public List<OrganizationRs> getByEmployeeCount(long count) {
         return organizationService.findByEmployeeCountBiggestThan(count);
+    }
+
+    @Override
+    public OrganizationRs update(OrganizationUpdateRq organizationUpdateRq) {
+        return organizationService.update(organizationUpdateRq);
     }
 
     @Override

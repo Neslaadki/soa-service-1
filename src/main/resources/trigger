@@ -1,3 +1,14 @@
+
+
+select employeeCounter();
+
+drop function employeeCounter();
+
+
+select organization_id, count(*)
+from employee
+group by organization_id;
+
 create or replace function employeeCounter()
     returns trigger
 as
@@ -18,15 +29,6 @@ begin
     RETURN NULL;
 end;
 $employeeCounter$ language 'plpgsql';
-
-select employeeCounter();
-
-drop function employeeCounter();
-
-
-select organization_id, count(*)
-from employee
-group by organization_id;
 
 
 create or replace trigger employeeCounterTrigger

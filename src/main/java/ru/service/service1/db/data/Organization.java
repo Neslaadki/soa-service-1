@@ -14,9 +14,10 @@ import java.time.LocalDateTime;
 @Entity
 @Setter
 @Getter
-@Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(toBuilder = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EntityListeners(AuditingEntityListener.class)
 public class Organization {

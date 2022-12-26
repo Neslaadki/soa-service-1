@@ -39,15 +39,13 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         if (optionalOrganization.isPresent()) {
 
-            log.info("findById return : {}", optionalOrganization.get());
+            log.info("findById return : {}", optionalOrganization.get().getId());
             return organizationMapper.toOrganizationResponseDto(optionalOrganization.get());
         } else {
 
             log.info("findById throw NotFoundException for id : {}", id);
             throw new NotFoundException(Organization.class, id);
         }
-
-        // попоробовать красивее
     }
 
     @Override
@@ -56,8 +54,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         Page<Organization> organizationList = organizationRepository.findAll(pageable);
 
         log.info("findAll return page of : {}", organizationList);
-        return new PageImpl<>(
-                organizationList.stream().map(organizationMapper::toOrganizationResponseDto).toList());
+        return new PageImpl<>(organizationList.stream().map(organizationMapper::toOrganizationResponseDto).toList());
     }
 
     @Override
@@ -98,14 +95,14 @@ public class OrganizationServiceImpl implements OrganizationService {
         List<Long> ids = organizationList.stream().map(Organization::getId).toList();
 
         organizationRepository.deleteAllById(ids);
-
         for (Long id : ids) {
             try {
                 findById(id);
 
                 log.warn("deleteWithType can't delete organization with id : {}", id);
                 throw new DeleteException(Organization.class, id);
-            } catch (NotFoundException ignored) {}
+            } catch (NotFoundException ignored) {
+            }
         }
 
         log.info("deleteWithType return : {}", organizationList);
@@ -115,10 +112,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public List<OrganizationRs> findByEmployeeCountBiggestThan(long count) {
 
-        List<Organization> organizationList =
-                organizationRepository.findAll().stream()
-                        .filter(o -> o.getEmployeesCount() > count)
-                        .toList();
+        List<Organization> organizationList = organizationRepository.findAll().stream().filter(o -> o.getEmployeesCount() > count).toList();
 
         log.info("findByEmployeeCountBiggestThan return count = {}", organizationList.size());
         return organizationList.stream().map(organizationMapper::toOrganizationResponseDto).toList();
@@ -128,20 +122,21 @@ public class OrganizationServiceImpl implements OrganizationService {
     public Map<OrganizationType, Long> getMapWithOrganizationTypeAndCountOfOrganizations() {
 
         List<Organization> organizationList = organizationRepository.findAll();
-        Map<OrganizationType, Long> map =
-                organizationList.stream()
-                        .collect(Collectors.groupingBy(Organization::getType, Collectors.counting()));
+        Map<OrganizationType, Long> map = organizationList.stream().collect(Collectors.groupingBy(Organization::getType, Collectors.counting()));
 
         log.info("getMapWithOrganizationTypeAndCountOfOrganizations return : {}", map.toString());
         return map;
     }
 
     @Override
-    public OrganizationRs updateById(
-            OrganizationUpdateRq organizationUpdateRq) {
+    public OrganizationRs update(OrganizationUpdateRq organizationUpdateRq) {
+        var found = findById(organizationUpdateRq.getId());
+        var update = organizationMapper.toOrganization(organizationUpdateRq)
+                .toBuilder().id(found.getId()).creationDate(found.getCreationDate()).build();
 
-        // todo
+        var updated = organizationRepository.save(update);
 
-        return null;
+        log.debug("update success for : {}", organizationUpdateRq);
+        return organizationMapper.toOrganizationResponseDto(updated);
     }
 }

@@ -22,8 +22,6 @@ public class EmployeeRs {
 
     String lastName;
 
-    Date birthday;
-
     Long organizationId;
 
 }

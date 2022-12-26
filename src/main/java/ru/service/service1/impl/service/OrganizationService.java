@@ -25,6 +25,6 @@ public interface OrganizationService {
 
     Map<OrganizationType, Long> getMapWithOrganizationTypeAndCountOfOrganizations();
 
-    OrganizationRs updateById(OrganizationUpdateRq organizationUpdateRq);
+    OrganizationRs update(OrganizationUpdateRq organizationUpdateRq);
 
 }

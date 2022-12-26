@@ -4,6 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ru.service.service1.api.dto.OrganizationRq;
 import ru.service.service1.api.dto.OrganizationRs;
+import ru.service.service1.api.dto.OrganizationUpdateRq;
 import ru.service.service1.db.data.Organization;
 import ru.service.service1.impl.config.MapperConfig;
 
@@ -16,4 +17,7 @@ public interface OrganizationMapper {
     @Mapping(ignore = true, target = "creationDate")
     @Mapping(ignore = true, target = "employeesCount")
     Organization toOrganization(OrganizationRq organizationRq);
+
+    @Mapping(ignore = true, target = "creationDate")
+    Organization toOrganization(OrganizationUpdateRq organizationUpdateRq);
 }

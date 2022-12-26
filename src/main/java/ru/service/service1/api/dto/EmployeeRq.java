@@ -17,6 +17,4 @@ public class EmployeeRq {
 
     @NotNull String lastName;
 
-    @NotNull Date birthday;
-
 }

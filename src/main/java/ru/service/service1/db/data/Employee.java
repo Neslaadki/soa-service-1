@@ -27,9 +27,6 @@ public class Employee {
     @Column(nullable = false, name = "last_name")
     String lastName;
 
-    @Column(nullable = false, name = "birthday")
-    Date birthday;
-
     @Column(nullable = false, name = "organization_id")
     Long organizationId;
 
